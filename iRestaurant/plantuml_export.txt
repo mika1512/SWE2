@@ -1,0 +1,20 @@
+@startuml
+
+[*] --> Idle
+
+state Idle {
+    [*] --> Ready
+}
+
+state Delivering {
+    Ready --> Delivering : startDelivery()
+    Delivering --> Delivered : delivered()
+}
+
+state Delivered {
+    Delivered --> Ready : reset()
+}
+
+[*] --> Idle
+
+@enduml

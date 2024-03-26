@@ -1,0 +1,116 @@
+@startuml
+
+class Menu {
+    - items: List<MenuItem>
+    + addItem(MenuItem item)
+    + removeItem(MenuItem item)
+    + getItems(): List<MenuItem>
+}
+
+class MenuItem {
+    - name: String
+    - price: float
+    - description: String
+    + getName(): String
+    + getPrice(): float
+    + getDescription(): String
+}
+
+class Order {
+    - items: List<MenuItem>
+    - totalAmount: float
+    - status: String
+    - estimatedTime: int
+    + addItem(MenuItem item)
+    + removeItem(MenuItem item)
+    + calculateTotalAmount(): float
+    + setStatus(String status)
+    + setEstimatedTime(int time)
+    + getItems(): List<MenuItem>
+    + getTotalAmount(): float
+    + getStatus(): String
+    + getEstimatedTime(): int
+}
+
+class Customer {
+    - name: String
+    - tableNumber: int
+    + getName(): String
+    + getTableNumber(): int
+}
+
+class Waiter {
+    - name: String
+    - wearableStatus: String
+    + notifyOrderReady(Order order)
+    + notifyOrderDelivered(Order order)
+    + getName(): String
+    + getWearableStatus(): String
+}
+
+class Chef {
+    - orders: List<Order>
+    + receiveOrder(Order order)
+    + getOrders(): List<Order>
+    + updateOrdersStatus(List<Order> orders): void
+}
+
+class PaymentGateway {
+    + processPayment(Order order, PaymentMethod paymentMethod)
+    + getPaymentMethods(): List<PaymentMethod>
+}
+
+class PaymentMethod {
+    - type: String
+    + getType(): String
+}
+
+class UserInterface {
+    + displayMenu(Menu menu)
+    + displayOrderSummary(Order order)
+    + displayPaymentOptions()
+    + displayOrderStatus(String status)
+    + displayMenuSource(Menu menu)
+    + displayOrderSummarySource(Order order)
+    + displayPaymentOptionsSource()
+    + displayOrderStatusSource(String status)
+}
+
+class Storage {
+  - menuItems: List<MenuItem>
+  - orders: List<Order>
+  + addMenuItem(menuItem: MenuItem): void
+  + removeMenuItem(menuItem: MenuItem): void
+  + addOrder(order: Order): void
+  + removeOrder(order: Order): void
+  + getMenuItems(): List<MenuItem>
+  + getOrders(): List<Order>
+}
+
+class NetworkConnection {
+   + establishConnection()
+    + sendData(Object data)
+    + receiveData()
+    + getEstablishedConnection(): boolean
+    + getReceivedData(): Object
+}
+
+Menu "1" *-- "*" MenuItem : items
+Order "1" *-- "*" MenuItem : items
+Order "1" -- "1" Customer : has
+Waiter "1" -- "1..*" Order : serves
+Chef "1" -- "*" Order : manages
+PaymentGateway "1" -- "*" PaymentMethod : processes
+PaymentGateway "1" -- "1" Order : processes
+UserInterface ..> MenuItem : uses
+UserInterface ..> Menu : uses
+UserInterface ..> Order : uses
+UserInterface ..> PaymentMethod : uses
+NetworkConnection ..> Chef : uses
+NetworkConnection ..> Waiter : uses
+NetworkConnection ..> UserInterface: uses
+NetworkConnection ..> Storage: uses
+NetworkConnection ..> Customer: uses
+
+Storage "1" -- "*" Order: stores
+@enduml
