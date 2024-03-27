@@ -1,0 +1,27 @@
+@startuml
+|User Interface|
+start
+:Retrieve Menu;
+|Menu|
+:Send Menu;
+|User Interface|
+:Display Menu;
+
+repeat
+repeat
+  :Browsing Menu;
+  :Select an item;
+repeat while (add to order?) is (no)
+->yes;
+:Add an item;
+|Order|
+:Update order and amount;
+:Send order list;
+|User Interface|
+:Display order list and amount;
+repeat while (finish order?) is (no)
+->yes;
+:Confirm order;
+:Display "Order received";
+stop
+@enduml
