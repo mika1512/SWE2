@@ -1,0 +1,27 @@
+@startuml
+
+[*] --> Idle: Power On
+Idle --> [*]: Power Off
+
+state Idle {
+  
+}
+Idle --> Ready: notifyOrderReady
+
+state Ready {
+  
+}
+Ready --> Delivering: Order is being delivered
+
+state Delivering {
+  
+}
+Delivering --> Delivered: notifyOrderDelivered
+
+state Delivered {
+  
+}
+Delivered --> Idle: order has been delivered
+
+
+@enduml
